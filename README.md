@@ -151,7 +151,24 @@ last_logits = output.logits[-1][0]  # Shape: [vocab_size]
 logits_dict = {tok: last_logits[id_].item() for tok, id_ in zip(toks, ids_)}
 weighted_score = wa5(logits_dict)
 print("Weighted average score:", weighted_score)
+# Weighted average score: 0.045549712192942585  range from 0-1
+# if you want range from 0-5, multiply 5
 ```
+
+To test q-sit on datasets, please refer to evaluation scripts [here](https://github.com/Q-Future/Q-SiT/tree/main/eval_scripts).
+
+
+<h2>Training Q-SiT</h2>
+
+The q-sit is based on the llava-onevision-0.5b and llava-onevision-7b. Set up the training environment from the official [llava site](https://github.com/LLaVA-VL/LLaVA-NeXT).
+
+Prepare the images of [Koniq/SPAQ/Q-Instruct](https://huggingface.co/datasets/q-future/Q-Instruct-DB/blob/main/q-instruct-images.tar), and [llava-150K](https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K) datasets.
+
+Get the cleaned training jsons from [here](https://github.com/Q-Future/Q-SiT/tree/main/training_jsons).
+
+Modify the [finetune_ov.sh](https://github.com/LLaVA-VL/LLaVA-NeXT/blob/main/scripts/train/finetune_ov.sh) with the provided [single_image.yaml](https://github.com/Q-Future/Q-SiT/blob/main/training_jsons/single_image.yaml). And you can begin training!
+
+It's worth noting that the llava ov weights are not compatible with the transformers package. You might want to convert your weight to the hf versions [here](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llava_onevision/convert_llava_onevision_weights_to_hf.py).
 
 ## Citation
 
