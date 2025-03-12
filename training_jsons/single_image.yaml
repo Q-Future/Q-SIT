@@ -1,0 +1,10 @@
+datasets:
+  - json_path: /jsons/train_spaq_qsit.json 
+    sampling_strategy: "all"
+  - json_path: /jsons/train_koniq_qsit.json 
+    sampling_strategy: "all"
+  - json_path: /jsons/q_instruct.json 
+    sampling_strategy: random:22%
+  - json_path: /jsons/llava_instruct_150k.json 
+    sampling_strategy: random:8%
+
