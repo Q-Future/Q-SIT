@@ -11,7 +11,9 @@
   <div>
   <sup>1</sup>Shanghai Jiao Tong University, <sup>2</sup>Nanyang Technological University
 </div>   
-       
+
+Paper Available at [Arxiv](https://arxiv.org/abs/2503.09197).
+
 Model Weights Available at [Q-SiT](https://huggingface.co/zhangzicheng/q-sit) [Q-SiT-mini](https://huggingface.co/zhangzicheng/q-sit-mini)
 
 <div style="width: 100%; text-align: center; margin:auto;">
@@ -170,7 +172,20 @@ Modify the [finetune_ov.sh](https://github.com/LLaVA-VL/LLaVA-NeXT/blob/main/scr
 
 It's worth noting that the llava ov weights are not compatible with the transformers package. You might want to convert your weight to the hf versions [here](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llava_onevision/convert_llava_onevision_weights_to_hf.py).
 
+
 ## Citation
 
-To do
+If you find our work useful, please cite our paper as:
+```
+@misc{zhang2025teachinglmmsimagequality,
+      title={Teaching LMMs for Image Quality Scoring and Interpreting}, 
+      author={Zicheng Zhang and Haoning Wu and Ziheng Jia and Weisi Lin and Guangtao Zhai},
+      year={2025},
+      eprint={2503.09197},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2503.09197}, 
+}
+```
+
 </div> 
