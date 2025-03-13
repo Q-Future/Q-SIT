@@ -26,9 +26,9 @@ Model Weights Available at [Q-SiT](https://huggingface.co/zhangzicheng/q-sit) [Q
 
 The Perception-Decision Integration Model for image quality scoring and interpreting tasks recognizes that these two processes are deeply interconnected. While most previous approaches treat them separately with distinct models, interpreting (the perceptual process) and scoring (the decisionmaking process) are not independent from the human vision system (HVS). Instead, they are integral components of a unified evaluation framework.
 
-## Performance
 
-<h2>Quick Look</h2> 
+
+<h2>Performance Quick Look</h2> 
 <div style="width: 50%; text-align: center; margin:auto;">
       <img style="width: 50%" src="radar.png">
 </div> 
