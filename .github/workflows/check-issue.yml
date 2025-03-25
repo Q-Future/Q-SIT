@@ -7,17 +7,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check Issue Body
+        env:
+          PAT: ${{ secrets.PAT }}  # 使用 PAT 而不是 GITHUB_TOKEN
         run: |
           ISSUE_BODY="${{ github.event.issue.body }}"
           if [[ ! "$ISSUE_BODY" =~ "Steps to Reproduce" || ! "$ISSUE_BODY" =~ "Expected Behavior" ]]; then
+            # 添加评论说明删除原因
             curl -X POST \
-              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Authorization: token $PAT" \
               -H "Accept: application/vnd.github+json" \
               "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments" \
-              -d '{"body": "This Issue does not follow the required template (missing Steps to Reproduce or Expected Behavior). It has been closed. Please resubmit with the correct format."}'
-            curl -X PATCH \
-              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -d '{"body": "This Issue does not follow the required template (missing Steps to Reproduce or Expected Behavior). It has been deleted. Please resubmit with the correct format."}'
+            # 删除 Issue
+            curl -X DELETE \
+              -H "Authorization: token $PAT" \
               -H "Accept: application/vnd.github+json" \
-              "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
-              -d '{"state": "closed", "state_reason": "not_planned"}'
+              "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}"
           fi
