@@ -8,25 +8,27 @@ jobs:
     steps:
       - name: Check Issue Body
         env:
-          PAT: ${{ secrets.PAT }}  # 使用 PAT 而不是 GITHUB_TOKEN
+          PAT: ${{ secrets.PAT }}
         run: |
           ISSUE_BODY="${{ github.event.issue.body }}"
           if [[ ! "$ISSUE_BODY" =~ "Steps to Reproduce" || ! "$ISSUE_BODY" =~ "Expected Behavior" ]]; then
-            # 添加评论说明原因
+            echo "Issue body: $ISSUE_BODY"
             curl -X POST \
               -H "Authorization: token $PAT" \
               -H "Accept: application/vnd.github+json" \
               "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments" \
-              -d '{"body": "This Issue does not follow the required template (missing Steps to Reproduce or Expected Behavior). It has been closed and will be deleted. Please resubmit with the correct format."}'
-            # 先关闭 Issue
+              -d '{"body": "This Issue does not follow the required template (missing Steps to Reproduce or Expected Behavior). It has been closed and will be deleted. Please resubmit with the correct format."}' \
+              && echo "Comment added" || echo "Comment failed"
             curl -X PATCH \
               -H "Authorization: token $PAT" \
               -H "Accept: application/vnd.github+json" \
               "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
-              -d '{"state": "closed", "state_reason": "not_planned"}'
-            # 再删除 Issue
+              -d '{"state": "closed", "state_reason": "not_planned"}' \
+              && echo "Issue closed" || echo "Close failed"
+            sleep 5
             curl -X DELETE \
               -H "Authorization: token $PAT" \
               -H "Accept: application/vnd.github+json" \
-              "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}"
+              "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
+              && echo "Issue deleted" || echo "Delete failed"
           fi
